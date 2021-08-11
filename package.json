@@ -1,0 +1,24 @@
+{
+  "name": "coder-proyectofinal",
+  "version": "1.0.0",
+  "description": "proyecto final de coder house",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beotrera/Coder-ProyectoFinal.git"
+  },
+  "author": "Braian otrera",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/beotrera/Coder-ProyectoFinal/issues"
+  },
+  "homepage": "https://github.com/beotrera/Coder-ProyectoFinal#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "0.0.1-security"
+  }
+}
