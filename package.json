@@ -4,6 +4,8 @@
   "description": "proyecto final de coder house",
   "main": "server.js",
   "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +21,9 @@
   "homepage": "https://github.com/beotrera/Coder-ProyectoFinal#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "mongoose": "^6.0.5",
+    "mongoose-unique-validator": "^2.0.3",
+    "nodemon": "^2.0.12"
   }
 }

@@ -1,13 +1,13 @@
 import express from "express";
+import { ProductsDAO } from '../db/dao/products.js'
 import { productClass } from './products.js';
-import { isAdmin } from "../auth/auth.js"
 
 const route = express.Router()
 
 export const product = productClass
 
 route.get("/list", async (req, res) => {
-    let list = await product.getProdcuts()
+    let list = await ProductsDAO.getProdcuts();
     if(!list[0]){
         return res.status(404).json({menssage:"empty product list"})
     }
@@ -16,33 +16,35 @@ route.get("/list", async (req, res) => {
 
 route.get("/list/:id", async (req, res) => {
     let { id } = req.params
-    let item = await product.getProductById(id)
-    if(!item[0]){
+    let item = await ProductsDAO.getProductById(id)
+    console.log(item)
+    if(!item){
         return res.status(404).json({menssage:"product not found"})
     }
-    res.status(200).json(item[0])
+    res.status(200).json(item)
 })
 
-route.post("/save", isAdmin, async (req, res) => {
+route.post("/save", async (req, res) => {
     let data = req.body
-    let prod = product.setProduct(data)
+    let prod = ProductsDAO.setProduct(data)
     res.json(prod)
 })
 
-route.put("/update/:id", isAdmin, async (req, res) => {
+route.put("/update/:id", async (req, res) => {
     let { id } = req.params
     let data = req.body
-    res.json(product.updateProduct(id,data))
+    let item = await ProductsDAO.updateProduct((id,data))
+    res.json(item)
 })
 
-route.delete("/delete/:id", isAdmin, async (req, res) => {
+route.delete("/delete/:id", async (req, res) => {
     let { id } = req.params
-    let prod = await product.deleteProduct(id)
+    let item = await ProductsDAO.deleteProduct(id)
 
-    if(!prod){
+    if(!item){
         return res.status(404).json({menssage:"product not found"})
     }
-    res.json(prod)
+    res.json(item)
 })
 
 export default route
