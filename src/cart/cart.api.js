@@ -1,12 +1,10 @@
 import express from "express";
-import Cart from './cart.js';
+import { CartDAO } from "../db/dao/cart.js";
 
-const route = express.Router()
-
-const cart = new Cart()
+const route = express.Router() 
 
 route.get("/list", async (req, res) => {
-    let list = await cart.getProdcuts()
+    let list = await CartDAO.getCarts()
     if(!list[0]){
         return res.status(404).json({menssage:"empty cart list"})
     }
@@ -15,7 +13,7 @@ route.get("/list", async (req, res) => {
 
 route.get("/list/:id",async (req, res) => {
     let { id } = req.params
-    let item = cart.getProductById(id)
+    let item = CartDAO.getCartById()
     if(!item[0]){
         return res.status(404).json({menssage:"product not found"})
     }
@@ -24,7 +22,7 @@ route.get("/list/:id",async (req, res) => {
 
 route.put("/save/:id",async (req, res) => {
     let { id } = req.params
-    let item = await cart.setProduct(id)
+    let item = await CartDAO.setCart(id)
     if(!item){
         return res.status(404).json({menssage:"product not found"})
     }
@@ -33,7 +31,7 @@ route.put("/save/:id",async (req, res) => {
 
 route.delete("/delete/:id",async (req, res) => {
     let { id } = req.params
-    let prod = cart.deleteProduct(id)
+    let prod = CartDAO.deleteProduct(id)
     res.json(prod)
 })
 

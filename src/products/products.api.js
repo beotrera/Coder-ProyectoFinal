@@ -1,13 +1,11 @@
 import express from "express";
 import { ProductsDAO } from '../db/dao/products.js'
-import { productClass } from './products.js';
 
 const route = express.Router()
 
-export const product = productClass
-
 route.get("/list", async (req, res) => {
-    let list = await ProductsDAO.getProdcuts();
+    const { filter } = req.query;
+    let list = await ProductsDAO.getProdcuts(filter);
     if(!list[0]){
         return res.status(404).json({menssage:"empty product list"})
     }
@@ -26,7 +24,10 @@ route.get("/list/:id", async (req, res) => {
 
 route.post("/save", async (req, res) => {
     let data = req.body
-    let prod = ProductsDAO.setProduct(data)
+    let prod = await ProductsDAO.setProduct(data)
+    if(!prod){
+        return res.status(404).json({menssage:"error to create product"})
+    }
     res.json(prod)
 })
 

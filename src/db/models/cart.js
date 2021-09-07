@@ -19,4 +19,4 @@ CartSchema.set('toJSON',{
 
 CartSchema.plugin(mongooseUniqueValidator)
 
-export default  mongoose.model('products',ProductSchema)
+export default  mongoose.model('carts',CartSchema)

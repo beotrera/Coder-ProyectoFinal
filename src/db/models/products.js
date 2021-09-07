@@ -5,9 +5,10 @@ const Schema = mongoose.Schema;
 
 const ProductSchema = new Schema({
     timestamp:{type: Date ,default:new Date()},
-    name: {type:String,lowercase:true,require:"name is require",unique:true},
+    name: {type:String,lowercase:true,require:"name is require", unique:true},
     description: String,
     code: String,
+    category: String,
     price: {type:Number,default:0},
     stock: {type:Number,default:0},
     url: String

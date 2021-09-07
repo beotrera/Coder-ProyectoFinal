@@ -2,8 +2,12 @@ import ProdcutsModel from '../models/products.js'
 
 class Products{
 
-    async getProdcuts(){
+    async getProdcuts(filter){
         try{
+            if(filter){ 
+                const res = await ProdcutsModel.find({category:{ $eq: filter }})
+                return res    
+            }
             const res = await ProdcutsModel.find({})
             return res
         }
@@ -32,9 +36,11 @@ class Products{
             product.price = parseInt(data.price)
             product.stock = parseInt(data.stock)
             product.url = data.url
+            product.category = data.category
             
-            const res = await product.save()
-            return res
+           const res = await product.save()
+
+           return res
 
         }
         catch(err){
@@ -44,8 +50,7 @@ class Products{
 
     async updateProduct(id,data){
         try{
-            const array = await MeetupsMod.find({_id:id})
-            const res = MeetupsMod.findOneAndUpdate({_id:id},{data})
+            const res = ProdcutsModel.findOneAndUpdate({_id:id},{data})
             return res
         }
         catch(err){
@@ -64,8 +69,6 @@ class Products{
         }
     }
 
-    getFilters(){
-    }
 }
 
 export const ProductsDAO = new Products()
