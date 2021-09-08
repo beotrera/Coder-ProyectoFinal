@@ -20,6 +20,7 @@ route.get("/list/:id", async (req, res) => {
 })
 
 route.post("/save", async (req, res) => {
+    console.log(req.body)
     let data = req.body
     let prod = await ProductsDAO.setProduct(data)
     if(!prod){

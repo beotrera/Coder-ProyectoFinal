@@ -54,7 +54,7 @@ class Products{
 
         }
         catch(err){
-            console.log(err)
+            console.log("err to created")
         }    
     }
 
