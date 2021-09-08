@@ -37,7 +37,9 @@ route.put("/update/:id", async (req, res) => {
 })
 
 route.delete("/delete/:id", async (req, res) => {
+    
     let { id } = req.params
+    console.log(id)
     let item = await ProductsDAO.deleteProduct(id)
 
     if(!item){

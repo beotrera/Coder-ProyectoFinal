@@ -1,5 +1,6 @@
 import CartModel from '../models/cart.js'
 import { ProductsDAO } from '../dao/products.js'
+import products from '../models/products.js'
 
 class Cart{
 
@@ -41,9 +42,30 @@ class Cart{
         }    
     }
 
-    async deleteProduct(id){
+    async addToCart(id, prod){
+
+        let item = await ProductsDAO.getProductById(prod)
+        const res = await CartModel.findOneAndUpdate({_id:id},{ $push : {products : item}})
+        
+        return res
+
+    }
+
+    async deleteCart(id){
         try{
             const res = await CartModel.findOneAndRemove({_id:id})
+            return res
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
+    async deleteCartProduct(id,prod){
+        try{
+            const data = await CartModel.find({_id:id})
+            const array = data[0].products.filter( (item)=>{ if(item._id != prod) return item} )
+            const res = await CartModel.findOneAndUpdate({_id:id},{ products : array})
             return res
         }
         catch(err){

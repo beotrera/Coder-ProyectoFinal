@@ -1,5 +1,6 @@
 import express from "express";
 import { CartDAO } from "../db/dao/cart.js";
+import products from "../db/models/products.js";
 
 const route = express.Router() 
 
@@ -13,11 +14,12 @@ route.get("/list", async (req, res) => {
 
 route.get("/list/:id",async (req, res) => {
     let { id } = req.params
-    let item = CartDAO.getCartById()
-    if(!item[0]){
-        return res.status(404).json({menssage:"product not found"})
+    let item = await CartDAO.getCartById(id)
+
+    if(!item._id){
+        return res.status(404).json({menssage:"cart not found"})
     }
-    res.status(200).json(item[0])
+    res.status(200).json(item)
 })
 
 route.put("/save/:id",async (req, res) => {
@@ -29,9 +31,26 @@ route.put("/save/:id",async (req, res) => {
     res.status(200).json(item)
 })
 
+route.put("/update/:id",async (req, res) => {
+    let { id } = req.params
+    let { product } = req.query
+    let item = await CartDAO.addToCart(id,product)
+    if(!item){
+        return res.status(404).json({menssage:"product not found"})
+    }
+    res.status(200).json(item)
+})
+
 route.delete("/delete/:id",async (req, res) => {
     let { id } = req.params
-    let prod = CartDAO.deleteProduct(id)
+    let prod = CartDAO.deleteCart(id)
+    res.json(prod)
+})
+
+route.delete("/deleteProduct/:id",async (req, res) => {
+    let { id } = req.params
+    let { product } = req.query
+    let prod = CartDAO.deleteCartProduct(id,product)
     res.json(prod)
 })
 
