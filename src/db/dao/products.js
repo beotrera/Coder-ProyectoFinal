@@ -2,10 +2,11 @@ import ProdcutsModel from '../models/products.js'
 
 class Products{
 
-    async getProdcuts(filter){
+    async getProdcuts(filter,value){
         try{
-            if(filter){ 
-                const res = await ProdcutsModel.find({category:{ $eq: filter }})
+            if(filter && value && value != ''){
+                const mongoFilter = this.getFilter(filter,value)
+                const res = await ProdcutsModel.find(mongoFilter)
                 return res    
             }
             const res = await ProdcutsModel.find({})
@@ -14,6 +15,15 @@ class Products{
         catch(err){
             console.log(err)
         }
+    }
+
+    getFilter(a,b){
+        const elements ={
+            "name":{name:{ $eq: b }},
+            "code":{code:{ $eq: b }},
+        }
+
+        return elements[a]
     }
 
     async getProductById(id){

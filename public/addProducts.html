@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./img/react.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <title>Ecommerce</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding: .5% 2%;">
+            <a class="navbar-brand" href="#">Ecommerce</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/">Prodcuts</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/cart.html">Cart</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/addProducts.html">Add Prodcuts</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+    </header>
+    <main>
+        <div style="width: 80%; margin: 40px auto;">
+            <form>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputEmail4">Name</label>
+                    <input type="email" class="form-control" id="inputEmail4">
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Description</label>
+                  <input type="text" class="form-control" id="description">
+                </div>
+                <div class="form-group col-md-6">
+                  <label>Code</label>
+                  <input type="text" class="form-control" id="code">
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label>Price</label>
+                    <input type="number" class="form-control" id="price">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label>Stock</label>
+                    <input type="number" class="form-control" id="stock">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label>Category</label>
+                    <select id="category" class="form-control">
+                      <option selected value="short">Short</option>
+                      <option value="shirt">Shirt</option>
+                      <option value="jacket">Jacket</option>
+                      <option value="pants">Pants</option>
+                    </select>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Sign in</button>
+              </form>
+        </div>
+    </main>
+</body>
+</html>

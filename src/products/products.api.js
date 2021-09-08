@@ -4,11 +4,8 @@ import { ProductsDAO } from '../db/dao/products.js'
 const route = express.Router()
 
 route.get("/list", async (req, res) => {
-    const { filter } = req.query;
-    let list = await ProductsDAO.getProdcuts(filter);
-    if(!list[0]){
-        return res.status(404).json({menssage:"empty product list"})
-    }
+    const { filter , value} = req.query;
+    let list = await ProductsDAO.getProdcuts(filter, value);
     res.status(200).json(list)
 })
 
