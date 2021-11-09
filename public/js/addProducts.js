@@ -6,7 +6,7 @@ const setProduct = async () =>{
     const stockHTML = document.getElementById("stock").value
     const categoryHTML = document.getElementById("category").value
     
-    const url = 'http://localhost:8080/products/save'
+    const url = `${window.location.origin}/products/save`
     const data ={
         method:'POST',
         body:JSON.stringify({

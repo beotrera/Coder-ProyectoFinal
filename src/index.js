@@ -1,7 +1,10 @@
-import Products from './products/products.api.js'
-import Cart from './cart/cart.api.js'
+import Products from './components/products/products.api.js'
+import Cart from './components/cart/cart.api.js'
+import User from './lib/passport/index.js'
 import express from 'express'
-import { connectToDatabase } from './db/index.js'
+import { connectToDatabase } from './lib/mongodb/index.js'
+import session from 'express-session'
+import passport from 'passport'
 
 const app = express();
 
@@ -11,12 +14,21 @@ app.use(express.urlencoded({extended:false}));
 const port = process.env.PORT || 8080;
 
 app.use(express.static('./public'));
-
+app.use(
+    session({
+            secret: process.env.SECRET || 'thisIsaSecret',
+            resave:false,
+            saveUninitialized:false
+    })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/products',Products)
 app.use('/cart',Cart)
+app.use('/user',User)
 
 app.use((req, res) => {
-    res.status(404).json({ error :"not found", descripcion:`the specific path ${req.url} is not implemented`});
+    res.status(404).json({ error :'not found', descripcion:`the specific path ${req.url} is not implemented`});
 });
 
 

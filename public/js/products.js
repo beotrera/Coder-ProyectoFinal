@@ -3,10 +3,10 @@ const pList = document.getElementById('list-products')
 const getProducts = async (filter,value)=>{
     let url
     if(filter != ''){
-        url = `http://localhost:8080/products/list?filter=${filter}&value=${value}`
+        url = `${window.location.origin}/products/list?filter=${filter}&value=${value}`
     }
     else{
-        url = `http://localhost:8080/products/list`
+        url = `${window.location.origin}/products/list`
     }
     const list = await fetch(url)
     const res = await list.json()
@@ -31,7 +31,7 @@ const getProducts = async (filter,value)=>{
 }
 
 const removeProduct = async (id)=>{
-    const res = await fetch(`http://localhost:8080/products/delete/${id}`,{method:"DELETE"})
+    const res = await fetch(`${window.location.origin}/products/delete/${id}`,{method:"DELETE"})
     getProducts('','')
     alert("Product was delete")
 }
@@ -40,13 +40,13 @@ const  addToCart = async (id)=>{
     var cart = localStorage.getItem('cartId')
 
     if(!cart){
-        const res = await fetch(`http://localhost:8080/cart/save/${id}`,{method:"PUT"})
+        const res = await fetch(`${window.location.origin}/cart/save/${id}`,{method:"PUT"})
         const data = await res.json()
         localStorage.setItem('cartId',data._id)
         alert("Product add to cart")
     }
     else{
-        const res = await fetch(`http://localhost:8080/cart/update/${cart}?product=${id}`,{method:"PUT"})
+        const res = await fetch(`${window.location.origin}/cart/update/${cart}?product=${id}`,{method:"PUT"})
         const data = await res.json()
         alert("Product add to cart")
     }

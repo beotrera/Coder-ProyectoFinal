@@ -1,6 +1,5 @@
 import CartModel from '../models/cart.js'
 import { ProductsDAO } from '../dao/products.js'
-import products from '../models/products.js'
 
 class Cart{
 

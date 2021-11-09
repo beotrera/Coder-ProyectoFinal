@@ -4,7 +4,7 @@ const getCart = async ()=>{
 
     var cart = localStorage.getItem('cartId')
     if(cart){
-        const url = `http://localhost:8080/cart/list/${cart}`
+        const url = `${window.location.origin}/cart/list/${cart}`
         const list = await fetch(url)
         const res = await list.json()
 
@@ -28,7 +28,7 @@ const getCart = async ()=>{
 const deleteProduct = async (id)=>{
     var cart = localStorage.getItem('cartId')
     if(cart){
-        const res = await fetch(`http://localhost:8080/cart/deleteProduct/${cart}?product=${id}`,{method:"DELETE"})
+        const res = await fetch(`${window.location.origin}/cart/deleteProduct/${cart}?product=${id}`,{method:"DELETE"})
         getCart()
         alert("Product was delete")
     }
