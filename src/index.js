@@ -3,9 +3,13 @@ import Cart from './components/cart/cart.api.js'
 import User from './lib/passport/index.js'
 import express from 'express'
 import { connectToDatabase } from './lib/mongodb/index.js'
+import cluster from 'cluster'
 import session from 'express-session'
 import passport from 'passport'
 import isAuth from './lib/auth/index.js'
+import config from './config/config.js'
+import os from 'os'
+const numCPUs = os.cpus().length;  
 
 const app = express();
 
@@ -48,14 +52,23 @@ app.use((req, res) => {
     res.status(404).json({ error :'not found', descripcion:`the specific path ${req.url} is not implemented`});
 });
 
-
-app.listen(port, () => {
-    console.log(`Server started at http://localhost:${port}`);
-    connectToDatabase()
-    .then(result =>{
-        console.log('Mongo ready')
-    })
-    .catch(err=>{
-        console.log(`Error to connect : ${err}`)
-    })
-});
+if (cluster.isMaster && config.CLUSTER) {
+    console.log("*** SERVER RUNNING IN CLUSTER MODE *** ");
+    console.log(`[${process.pid}] Parent process`);
+  
+    for (let i = 0; i < numCPUs; i++) {
+      cluster.fork();
+    }
+  } 
+else {
+    app.listen(port, () => {
+        console.log(`Server started at http://localhost:${port}`);
+        connectToDatabase()
+        .then(result =>{
+            console.log('Mongo ready')
+        })
+        .catch(err=>{
+            console.log(`Error to connect : ${err}`)
+        })
+    });
+}

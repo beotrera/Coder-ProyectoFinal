@@ -91,10 +91,8 @@ route.delete('/deleteProduct/:id',async (req, res) => {
 
 route.post('/send',async (req, res) => {
     try{
-        let { id } = req.params
-        let { product } = req.query
-        let prod = CartDAO.deleteCartProduct(id,product)
-        res.json(prod)
+        sendEmailOrder(req.body.html);
+        res.send(200).json({success:true})
     }
     catch(err){
         logger.error(err)
