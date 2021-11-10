@@ -20,7 +20,7 @@ const login = async () =>{
         .then( async(res)=> {
            let data = await res.json()
             if(data.success){
-                await (window.location.href = `${window.location.origin}/index.html`)
+                await (window.location.href = `${window.location.origin}/home`)
             }
             else{
                 alert("Error in user or password")

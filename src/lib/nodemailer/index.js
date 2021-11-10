@@ -36,3 +36,21 @@ export const sendEmailRegister= async (data) =>{
         return info
     })
 }
+
+export const sendEmailOrder= async (data) =>{
+    const mailOptions ={
+        from:'earlene.terry32@ethereal.email',
+        to: process.env.ADMIN_EMAIL,
+        subject: 'New order',
+        html:data
+    }
+
+    await transporter.sendMail(mailOptions,(err,info) =>{
+        if(err){
+            console.log(err)
+            return err
+        }
+        console.log(info)
+        return info
+    })
+}

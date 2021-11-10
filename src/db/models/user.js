@@ -21,6 +21,15 @@ const UserSchema = new Schema({
 
 UserSchema.plugin(mongooseUniqueValidator)
 
+UserSchema.set('toJSON',{
+  transform:(returnObject)=>{
+      returnObject.id = returnObject._id
+      delete returnObject.__v
+      delete returnObject._id
+  }
+})
+
+
 UserSchema.methods.encryptPassword = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 };

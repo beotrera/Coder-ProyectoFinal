@@ -3,6 +3,7 @@ import passport_local from 'passport-local'
 import userModel  from '../../db/models/user.js'
 import express from 'express';
 import { sendEmailRegister } from '../nodemailer/index.js';
+
 const route = express.Router()
 const LocalStrategy = passport_local.Strategy
 
@@ -24,6 +25,7 @@ passport.use('local-register',new LocalStrategy({
                 user.year = req.body.year;
                 user.addres = req.body.addres;
                 user.phone = req.body.phone;
+
                 
                 await user.save()   
                 return done(null,user);
@@ -99,8 +101,8 @@ route.get('/login', (req,res)=>{
 
 route.get('/logout', async (req, res) => {
     req.session.destroy( err =>{
-        if(!err) return res.clearCookie('user').status(200).send({error:false})
-        else res.status(404).send({error:true,menssage:'error logout',body:err})
+        if(!err) return res.clearCookie('user').status(200).send({success:true})
+        else res.status(404).send({success:false,body:err})
     })
 })
 

@@ -10,7 +10,7 @@
     <title>Ecommerce</title>
 </head>
 <body>
-    <header>
+  <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding: .5% 2%;">
             <a class="navbar-brand" href="#">Ecommerce</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,28 +19,23 @@
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
                 <li class="nav-item active">
-                  <a class="nav-link" href="/">Prodcuts</a>
+                  <a class="nav-link" href="/home">Prodcuts</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/cart.html">Cart</a>
+                  <a class="nav-link" href="/cart">Cart</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="/addProducts.html">Add Prodcuts</a>
+                    <a class="nav-link" href="/addproducts">Add Prodcuts</a>
                 </li>
               </ul>
+            </div>
+            <div class="d-grid" style="width: 10%;margin: 0 auto;">
+              <button class="btn btn-primary btn-login fw-bold" onclick="logout()">Logout</button>
             </div>
           </nav>
     </header>
     <main>
-        <nav class="navbar navbar-light bg-light" style="justify-content: flex-end;padding:10px 30px;">
-                <select class="form-select" id="filter" aria-label="Default select example" style="width:130px;">
-                    <option selected value="name">Name</option>
-                    <option value="code">Code</option>
-                </select>
-                <input class="form-control mr-sm-2" placeholder="Search" id="filterData" style="width: 180px;">
-                <button class="btn btn-outline-success my-2 my-sm-0" onclick="getProductsByFilter()">Search</button>
-        </nav>
-        <ul id="list-products" style="display: flex;
+        <ul id="list-cart" style="display: flex;
         margin: 0;
         margin-top: 20px;
         justify-content: space-evenly;
@@ -48,7 +43,10 @@
         list-style: none;
         align-items: center;">
         </ul>
+        <div class="d-grid" style="width: 10%;margin: 0 auto;margin-top: 15px;" id="send-button">
+        </div>
     </main>
 </body>
-<script src="./js/products.js"></script>
+<script src="./js/cart.js"></script>
+<script src="./js/logout.js"></script>
 </html>
