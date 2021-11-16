@@ -19,10 +19,10 @@ route.get('/list', async (req, res) => {
     }
 })
 
-route.get('/list/:id',async (req, res) => {
+route.get('/list/user',async (req, res) => {
     try{
-        let { id } = req.params
-        let item = await CartDAO.getCartById(id)
+        let { email } = req.user
+        let item = await CartDAO.getCartById(email)
 
         if(!item._id){
             return res.status(404).json({menssage:'cart not found'})
@@ -39,7 +39,7 @@ route.put('/save/:id',async (req, res) => {
     try{
         let { id } = req.params
         let { email } = req.user
-        let item = await CartDAO.setCart(id)
+        let item = await CartDAO.setCart(id,email)
         if(!item){
             return res.status(404).json({menssage:'product not found'})
         }
@@ -51,11 +51,11 @@ route.put('/save/:id',async (req, res) => {
     
 })
 
-route.put('/update/:id',async (req, res) => {
+route.put('/update',async (req, res) => {
     try{
-        let { id } = req.params
         let { product } = req.query
-        let item = await CartDAO.addToCart(id,product)
+        let { email } = req.user 
+        let item = await CartDAO.addToCart(email,product)
         if(!item){
             return res.status(404).json({menssage:'product not found'})
         }
@@ -66,10 +66,10 @@ route.put('/update/:id',async (req, res) => {
     }
 })
 
-route.delete('/delete/:id',async (req, res) => {
+route.delete('/delete',async (req, res) => {
     try{
-        let { id } = req.params
-        let prod = CartDAO.deleteCart(id)
+        let { email } = req.user 
+        let prod = CartDAO.deleteCart(email)
         res.json(prod)
     }
     catch(err){
@@ -77,11 +77,11 @@ route.delete('/delete/:id',async (req, res) => {
     }
 })
 
-route.delete('/deleteProduct/:id',async (req, res) => {
+route.delete('/deleteProduct',async (req, res) => {
     try{
-        let { id } = req.params
+        let { email } = req.user 
         let { product } = req.query
-        let prod = CartDAO.deleteCartProduct(id,product)
+        let prod = CartDAO.deleteCartProduct(email,product)
         res.json(prod)
     }
     catch(err){

@@ -13,9 +13,9 @@ class Cart{
         }
     }
 
-    async getCartById(id){
+    async getCartById(user){
         try{
-            const res = await CartModel.findOne({_id:id})
+            const res = await CartModel.findOne({user:user})
             return res
         }
         catch(err){
@@ -52,18 +52,18 @@ class Cart{
         }    
     }
 
-    async addToCart(id, prod){
+    async addToCart(user, prod){
 
         let item = await ProductsDAO.getProductById(prod)
-        const res = await CartModel.findOneAndUpdate({_id:id},{ $push : {products : item}})
+        const res = await CartModel.findOneAndUpdate({user:user},{ $push : {products : item}})
         
         return res
 
     }
 
-    async deleteCart(id){
+    async deleteCart(user){
         try{
-            const res = await CartModel.findOneAndRemove({_id:id})
+            const res = await CartModel.findOneAndRemove({user:user})
             return res
         }
         catch(err){
@@ -71,11 +71,11 @@ class Cart{
         }
     }
 
-    async deleteCartProduct(id,prod){
+    async deleteCartProduct(user,prod){
         try{
-            const data = await CartModel.find({_id:id})
+            const data = await CartModel.find({user:user})
             const array = data[0].products.filter( (item)=>{ if(item._id != prod) return item} )
-            const res = await CartModel.findOneAndUpdate({_id:id},{ products : array})
+            const res = await CartModel.findOneAndUpdate({user:user},{ products : array})
             return res
         }
         catch(err){

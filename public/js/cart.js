@@ -3,12 +3,12 @@ const bSend = document.getElementById('send-button')
 
 const getCart = async ()=>{
 
-    var cart = localStorage.getItem('cartId')
+    let cart = localStorage.getItem('cartId')
     if(cart){
-        const url = `${window.location.origin}/carts/list/${cart}`
-        const list = await fetch(url)
-        const res = await list.json()
-
+        let url = `${window.location.origin}/carts/list/user`
+        let list = await fetch(url)
+        let res = await list.json()
+        console.log(res)
         let data_list = ''
         res.products.forEach(element => {
             const product = 
@@ -28,7 +28,7 @@ const getCart = async ()=>{
 }
 
 const deleteProduct = async (id)=>{
-    var cart = localStorage.getItem('cartId')
+    let cart = localStorage.getItem('cartId')
     if(cart){
         const res = await fetch(`${window.location.origin}/carts/deleteProduct/${cart}?product=${id}`,{method:"DELETE"})
         getCart()
@@ -37,9 +37,9 @@ const deleteProduct = async (id)=>{
 }
 
 const sendEmail = async()=>{
-    var cart = localStorage.getItem('cartId')
-    const list = await fetch(url)
-    const res = await list.json()
+    let cart = localStorage.getItem('cartId')
+    let list = await fetch(url)
+    let res = await list.json()
     let htmlList =res.products.map(element => {
         return `<li>
             <h3>${element.name}</h3>
@@ -60,8 +60,8 @@ const sendEmail = async()=>{
     ${htmlList}
     </ul>`
     
-    const url = `${window.location.origin}/carts/list/${cart}`
-    const input ={
+    let url = `${window.location.origin}/carts/list/${cart}`
+    let input ={
         method:'POST',
         body:JSON.stringify({
             html:html
@@ -69,10 +69,10 @@ const sendEmail = async()=>{
         headers: {"Content-type": "application/json","Accept": "application/json"}
     }
 
-    const url = `${window.location.origin}/carts/send`
-        const list = await fetch(url,input)
-        const res = await list.json()
-        if(res.success){
+    let urlSend = `${window.location.origin}/carts/send`
+    let data = await fetch(urlSend,input)
+    let resSend = await data.json()
+        if(resSend.success){
             alert("order send")
         }
 }
