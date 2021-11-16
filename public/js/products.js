@@ -40,13 +40,13 @@ const  addToCart = async (id)=>{
     var cart = localStorage.getItem('cartId')
 
     if(!cart){
-        const res = await fetch(`${window.location.origin}/cart/save/${id}`,{method:"PUT"})
+        const res = await fetch(`${window.location.origin}/carts/save/${id}`,{method:"PUT"})
         const data = await res.json()
         localStorage.setItem('cartId',data._id)
         alert("Product add to cart")
     }
     else{
-        const res = await fetch(`${window.location.origin}/cart/update/${cart}?product=${id}`,{method:"PUT"})
+        const res = await fetch(`${window.location.origin}/carts/update/${cart}?product=${id}`,{method:"PUT"})
         const data = await res.json()
         alert("Product add to cart")
     }

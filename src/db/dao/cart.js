@@ -23,7 +23,17 @@ class Cart{
         }
     }
 
-    async setCart(id){
+    async getCartByUser(user){
+        try{
+            const res = await CartModel.findOne({user:user})
+            return res
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
+    async setCart(id,user){
         try{
             let item = await ProductsDAO.getProductById(id)
 
@@ -31,6 +41,7 @@ class Cart{
 
             const productCart = new CartModel()
             productCart.products = item
+            productCart.user = user
 
             const res = productCart.save()
 

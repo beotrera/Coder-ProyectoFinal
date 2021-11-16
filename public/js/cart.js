@@ -5,7 +5,7 @@ const getCart = async ()=>{
 
     var cart = localStorage.getItem('cartId')
     if(cart){
-        const url = `${window.location.origin}/cart/list/${cart}`
+        const url = `${window.location.origin}/carts/list/${cart}`
         const list = await fetch(url)
         const res = await list.json()
 
@@ -30,7 +30,7 @@ const getCart = async ()=>{
 const deleteProduct = async (id)=>{
     var cart = localStorage.getItem('cartId')
     if(cart){
-        const res = await fetch(`${window.location.origin}/cart/deleteProduct/${cart}?product=${id}`,{method:"DELETE"})
+        const res = await fetch(`${window.location.origin}/carts/deleteProduct/${cart}?product=${id}`,{method:"DELETE"})
         getCart()
         alert("Product was delete")
     }
@@ -60,7 +60,7 @@ const sendEmail = async()=>{
     ${htmlList}
     </ul>`
     
-    const url = `${window.location.origin}/cart/list/${cart}`
+    const url = `${window.location.origin}/carts/list/${cart}`
     const input ={
         method:'POST',
         body:JSON.stringify({
@@ -69,7 +69,7 @@ const sendEmail = async()=>{
         headers: {"Content-type": "application/json","Accept": "application/json"}
     }
 
-    const url = `${window.location.origin}/cart/send`
+    const url = `${window.location.origin}/carts/send`
         const list = await fetch(url,input)
         const res = await list.json()
         if(res.success){

@@ -2,7 +2,7 @@ import express from 'express';
 import { CartDAO } from '../../db/dao/cart.js';
 import logger from '../../helper/logger.js';
 import { sendEmailOrder } from '../../lib/nodemailer/index.js'
-
+import sendMsm from '../../lib/twilio/index.js'
 
 const route = express.Router() 
 
@@ -38,6 +38,7 @@ route.get('/list/:id',async (req, res) => {
 route.put('/save/:id',async (req, res) => {
     try{
         let { id } = req.params
+        let { email } = req.user
         let item = await CartDAO.setCart(id)
         if(!item){
             return res.status(404).json({menssage:'product not found'})
@@ -91,6 +92,7 @@ route.delete('/deleteProduct/:id',async (req, res) => {
 
 route.post('/send',async (req, res) => {
     try{
+        sendMsm('New order was created',req.user.phone);
         sendEmailOrder(req.body.html);
         res.send(200).json({success:true})
     }

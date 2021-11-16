@@ -12,6 +12,16 @@ class User{
         }
     }
 
+    async getUserById(id){
+        try{
+            const res = await UserModel.find({_id:id})
+            return res
+        }
+        catch(err){
+            console.log(err)
+        }
+    }
+
     async setProduct(data){
         try{
             let user = new UserModel()

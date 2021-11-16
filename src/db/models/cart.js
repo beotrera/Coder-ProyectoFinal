@@ -5,6 +5,7 @@ import mongooseUniqueValidator from  'mongoose-unique-validator';
 const Schema = mongoose.Schema;
 
 const CartSchema =new Schema({
+    user:String,
     created_at:{type:Date, default:Date.now()},
     products:[]
 })

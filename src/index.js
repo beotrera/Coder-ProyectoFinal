@@ -29,12 +29,12 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/products',isAuth,Products)
-app.use('/cart',isAuth,Cart)
 app.use('/user',User)
 app.use('/login',(req,res)=>{
     res.render('login')
 })
+app.use('/products',isAuth,Products)
+app.use('/carts',isAuth,Cart)
 app.use('/register',(req,res)=>{
     res.render('register')
 })
@@ -44,7 +44,8 @@ app.use('/home',isAuth,(req,res)=>{
 app.use('/cart',isAuth,(req,res)=>{
     res.render('cart')
 })
-app.use('/addproducts',isAuth,(req,res)=>{
+app.use('/addproducts',(req,res)=>{
+    console.log("test")
     res.render('addProducts')
 })
 

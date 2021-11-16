@@ -19,8 +19,6 @@ const UserSchema = new Schema({
     phone:String
 })
 
-UserSchema.plugin(mongooseUniqueValidator)
-
 UserSchema.set('toJSON',{
   transform:(returnObject)=>{
       returnObject.id = returnObject._id
@@ -29,6 +27,7 @@ UserSchema.set('toJSON',{
   }
 })
 
+UserSchema.plugin(mongooseUniqueValidator)
 
 UserSchema.methods.encryptPassword = (password) => {
   return bcrypt.hashSync(password, bcrypt.genSaltSync(10));

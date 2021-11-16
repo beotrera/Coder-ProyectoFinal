@@ -16,7 +16,7 @@ const setRegister = async () =>{
             addres:addressHTML,
             email:emailHTML,
             password:passHTML,
-            phone:`${codeHTML}${phoneHTML}`
+            phone:phoneHTML
         }),
         headers: {"Content-type": "application/json","Accept": "application/json"}
     }
