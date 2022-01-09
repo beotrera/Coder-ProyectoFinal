@@ -1,12 +1,14 @@
 import { Router } from 'express';
-import { deleteAllCart, deleteOneItem, findOne, update } from '../controllers/cart';
+import { deleteAllCart, deleteOneItem, findOne, updateItem, addItem } from '../controllers/cart';
 import { auth } from '../controllers/auth';
+
 
 const route = Router();
 
-route.put('/update', auth, update);
-route.get('/find', auth, findOne);
-route.delete('/deleteCart', auth, deleteAllCart);
-route.delete('/delete/:id', auth, deleteOneItem);
+route.get('/', auth, findOne)
+route.post('/add/item/:productId', auth, addItem);
+route.post('/update/item/:productId', auth, updateItem);
+route.delete('/delete', auth, deleteAllCart);
+route.delete('/delete/item/:id', auth, deleteOneItem);
 
 export default route

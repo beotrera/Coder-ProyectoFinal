@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import logger from '../utils/logger';
-import { deleteCart, findCart, updateCart, deleteItem } from '../service/cart';
+import { deleteCart, findCart, updateOneItem, addOneItem, deleteItem } from '../service/cart';
 import { decodeToken } from '../service/auth';
-import { ProductBody } from '../types/products';
 
 
 export const findOne = async ( req:Request ,res:Response ,next:NextFunction )=>{
@@ -12,7 +11,6 @@ export const findOne = async ( req:Request ,res:Response ,next:NextFunction )=>{
         const token = authorization.substring(7)
         const { id } = await decodeToken( token );
         const cart = await findCart( id );
-
         res.status(200).json(cart);
     }
     catch(err){
@@ -22,13 +20,37 @@ export const findOne = async ( req:Request ,res:Response ,next:NextFunction )=>{
     
 }
 
-export const update = async( req:ProductBody ,res:Response ,next:NextFunction ) => {
+export const addItem = async( req:Request ,res:Response ,next:NextFunction ) => {
     try{
-        const data = req.body
+        const { cant } = req.query
+        const { productId } = req.params;
+        if(!productId || !cant){
+            return res.status(400).json( 'Missing parameters' );
+        }
         const authorization = req.get('authorization') as string
         const token = authorization.substring(7)
         const { id } = await decodeToken( token );
-        const cart = await updateCart( id, data );
+        const cart = await addOneItem( id, productId, parseInt(cant as string));
+
+        res.status(200).json(cart);
+    }
+    catch(err){
+        logger.error(err);
+        next(err);
+    }
+}
+
+export const updateItem = async( req:Request ,res:Response ,next:NextFunction ) => {
+    try{
+        const { cant } = req.query
+        const { productId } = req.params;
+        if(!productId || !cant){
+            return res.status(400).json( 'Missing parameters' );
+        }
+        const authorization = req.get('authorization') as string
+        const token = authorization.substring(7)
+        const { id } = await decodeToken( token );
+        const cart = await updateOneItem( id, productId, parseInt(cant as string));
 
         res.status(200).json(cart);
     }
@@ -61,7 +83,6 @@ export const deleteAllCart = async( req:Request ,res:Response ,next:NextFunction
         const token = authorization.substring(7)
         const { id } = await decodeToken( token );
         const cart = await deleteCart( id );
-
         res.status(200).json(cart);
     }
     catch(err){

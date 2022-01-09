@@ -44,22 +44,3 @@ export const auth = async ( req:Request, res:Response, next:NextFunction )=>{
     }
     
 }
-
-export const isAdmin = async ( req:Request, res:Response, next:NextFunction )=>{
-    try{
-        const authorization = req.get('authorization')
-    
-        const { role, id } = await verifyJWT(authorization as string)
-
-        if( role != 'admin' || !id ){
-            return  res.status(403).send( 'access denided' )
-        }
-
-        next();
-    }
-    catch(err){
-        logger.error(err);
-        next(err);
-    }
-    
-}

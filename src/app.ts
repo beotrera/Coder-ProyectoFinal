@@ -13,7 +13,7 @@ app.use(express.json());
 app.use('/user',User);
 app.use('/product',Product);
 app.use('/auth',Auth);
-app.use('/cart',Cart);
+//app.use('/cart',Cart);
 
 app.use(errorMiddleware);
 

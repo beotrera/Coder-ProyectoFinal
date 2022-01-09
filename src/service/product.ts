@@ -1,31 +1,29 @@
-import ProductModel from '../models/product';
 import { ProductData } from '../types/products';
+import { create, find, findById, update, deleteById } from '../dao/product';
 
 
-export const createProduct = async( name:string, price:number, stock:number, description:string, type:string ):Promise<ProductData> =>{
-
-    const Product = await ProductModel.create({ name, price, stock, description, type }) as unknown as ProductData;
+export const createProduct = async( name:string, price:number, stock:number, description:string, category:string ):Promise<ProductData> =>{
+    const Product = await create(name, price, stock, description, category);
     return Product;
 };
 
-export const getProducts = async():Promise<ProductData[]> =>{
-    const Products = ProductModel.find({}) as unknown as ProductData[];
+export const getProducts = async( category:string ):Promise<ProductData[]> =>{
+    const Products = await find( category );
     return Products;
 }   
 
 export const findProductById = async( id:string ):Promise<ProductData> =>{
-
-    const Product = await ProductModel.find({ _id:id }) as unknown as ProductData[];
-    return Product[0];
-}
-
-export const updateProduct = async( id:string,data:ProductData ) => {
-    const { name, price, stock, description, type } = data;
-    const Product = await ProductModel.findByIdAndUpdate({_id:id},{ name, price, stock, description, type });
+    const Product = await findById(id);
     return Product;
 }
 
+export const updateProduct = async( id:string,data:ProductData ) => {
+    await update(id,data);
+    const ProductUpdate = await findById(id);
+    return ProductUpdate;
+}
+
 export const deleteProduct = async( id:string ) => {
-    const Product = await ProductModel.findByIdAndDelete({_id:id});
+    const Product = await deleteById(id);
     return Product;
 }

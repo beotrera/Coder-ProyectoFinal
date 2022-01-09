@@ -1,59 +1,54 @@
-import UserModel from '../models/user';
-import { UserData } from '../types/user';
-import { ProductData } from '../types/products';
+import { UserModel } from '../models/user';
+import { findUserById } from '../service/user';
+import { updateCart } from '../dao/user';
+import { findProductById } from '../service/product';
 
 
 export const findCart = async( id:string ) =>{
-
-    const user = await UserModel.find({ _id:id }) as unknown as UserData[];
-    return user[0].cart;
+    const user = await findUserById(id);
+    return user.cart;
 };
 
 
-export const updateCart = async( id:string, data:ProductData ) =>{
+export const addOneItem = async( id:string, productId:string, cant:number ) =>{
+    const user = await findUserById(id);
+    const product = await findProductById(productId);
+    const newCart = user.cart
+    newCart.push({ name:product.name,quantity:cant,price:product.price });
+    await updateCart(id,newCart);
+    return newCart;
+};
 
-    const { _id, name, type, price, stock, description } = data;
-    const idData = _id as string
-    const cart = await findCart( id );
-    let isIn = false;
-    const newCart = cart.map((x)=>{
-        if( x._id === id){
-            x.totalCount = x.totalCount + 1;
-            isIn = true;
-            return x;
+export const updateOneItem = async( id:string, productId:string, cant:number ) =>{
+    const user = await findUserById(id);
+    const product = await findProductById(productId);
+    const newCart = user.cart.map( x=>{
+        if(x.name === product.name){
+            return { name:x.name, price: x.price, quantity: x.quantity + cant }
         }
-
-        return x;
+        return x
     });
 
-    if( !isIn ){
-        cart.push({totalCount:1, _id:idData, name, type, price, stock, description});
-    }else{
-        await UserModel.findByIdAndUpdate({ _id:id },{ cart:newCart });
-        return newCart;
-    }
-
-
-    return cart
+    await updateCart(id,newCart);
+    return newCart;
 };
-
 
 export const deleteItem = async( id:string, idProduct:string ) =>{
 
     const cart = await findCart( id );
+    const product = await findProductById(idProduct);
     const newCart = cart.filter((x)=>{
-        if( idProduct != x._id ){
+        if( product.name != x.name ){
             return x 
         }
     });
-
-    await UserModel.findByIdAndUpdate({ _id:id },{ cart:newCart });
+    
+    await updateCart(id,newCart);
     return newCart;
 
 };
 
-export const deleteCart = async( id:string ) =>{
-
+export const deleteCart = async( id:string )=>{
     const user = await UserModel.findByIdAndUpdate({ _id:id },{ cart:[] })
     return user
 };

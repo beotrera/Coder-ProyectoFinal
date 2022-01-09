@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import logger from '../utils/logger';
 import { UserBody } from '../types/user';
-import { createUser, findUserById, getUsers, updateUser, deleteUser } from '../service/user';
+import { createUser, getUsers, findUserById, updateUser, deleteUser } from '../service/user';
 
 export const create = async ( req:UserBody, res:Response, next:NextFunction )=>{
     try{
@@ -38,7 +38,11 @@ export const findById = async( req:Request, res:Response ,next:NextFunction) => 
             return res.status(400).json( 'Missing parameters' );
         }
         
-        const user = await findUserById({ id:id });
+        const user = await findUserById(id);
+        if(!user){
+            return res.status(404).json( 'User not found' );
+        }
+        
         res.status(200).json(user);
     }
     catch(err){
@@ -71,6 +75,9 @@ export const deleteById= async( req:Request, res:Response ,next:NextFunction) =>
             return res.status(400).json( 'Missing parameters' );
         }
         const user = await deleteUser(id as string);
+        if(!user){
+            return res.status(404).json( 'User not found' );
+        }
 
         res.status(200).json(user)
     }

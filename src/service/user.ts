@@ -1,33 +1,32 @@
-import UserModel from '../models/user';
 import bcrypt from 'bcrypt';
-import { UserData, FindData } from '../types/user';
+import { UserData } from '../types/user';
+import { create, find, findById, update, deleteById } from '../dao/user';
+import { newUser } from '../utils/email';
 
 
-export const createUser = async( name: string, email: string, password: string ):Promise<UserData> =>{
-
+export const createUser = async( name: string, email: string, password: string ):Promise<UserData>=>{
     const hash = await bcrypt.hash( password as string,10 )
-    const user = await UserModel.create({ name, email, password: hash }) as unknown as UserData;
+    const user = await create(name,email,hash);
+    //await newUser(user);
     return user;
 };
 
-export const getUsers = async():Promise<UserData[]> =>{
-    const users = UserModel.find({}) as unknown as UserData[];
-    return users;
+export const getUsers = async():Promise<UserData[]>=>{
+    const users = await find();
+    return users
 }   
 
-export const findUserById = async( data:FindData ):Promise<UserData> =>{
-    const { id, email } = data;
-    const user = await UserModel.find( id ? { _id:id } : { email:email } ) as unknown as UserData[];
-    return user[0];
-}
-
-export const updateUser = async( id:string,data:UserData ) => {
-    const { name, email } = data;
-    const user = await UserModel.findByIdAndUpdate({_id:id},{ name, email });
+export const findUserById = async( id:string ):Promise<UserData>=>{
+    const user = await findById(id);
     return user;
 }
 
-export const deleteUser = async( id:string ) => {
-    const user = await UserModel.findByIdAndDelete({_id:id});
+export const updateUser = async( id:string,data:UserData ):Promise<UserData>=>{
+    const user = await update(id,data);
+    return user;
+}
+
+export const deleteUser = async( id:string ):Promise<UserData>=> {
+    const user = await deleteById(id);
     return user;
 }

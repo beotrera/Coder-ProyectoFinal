@@ -6,7 +6,7 @@ export interface ProductData {
     description: string,
     stock: number,
     price: number,
-    type: string
+    category: string
 }
 
 

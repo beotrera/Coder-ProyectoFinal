@@ -5,8 +5,8 @@ import { createProduct, getProducts, findProductById, deleteProduct, updateProdu
 
 export const create = async ( req:ProductBody,res:Response ,next:NextFunction )=>{
     try{
-        const { name, description, price, stock, type } = req.body
-        const user = await createProduct( name, price, stock, description, type );
+        const { name, description, price, stock, category } = req.body
+        const user = await createProduct( name, price, stock, description, category );
         res.status(200).json(user); 
     }
     catch(err){
@@ -18,7 +18,8 @@ export const create = async ( req:ProductBody,res:Response ,next:NextFunction )=
 
 export const find = async( req:Request ,res:Response ,next:NextFunction ) => {
     try{
-        const products = await getProducts();
+        const { filter } = req.query; 
+        const products = await getProducts( filter as string);
         if(products.length <= 0){ 
             return res.status(400).json( {total:0,data:[]} ) 
         }
@@ -39,6 +40,9 @@ export const findById = async( req:Request, res:Response ,next:NextFunction ) =>
         }
         
         const user = await findProductById( id );
+        if(user){
+            return res.status(200).json('product not found')
+        }
         res.status(200).json(user);
     }
     catch(err){
