@@ -3,6 +3,6 @@ import { getToken, auth } from '../controllers/auth';
 
 const route = Router();
 
-route.post('/getTokeen',getToken);
+route.post('/getToken',getToken);
 
 export default route

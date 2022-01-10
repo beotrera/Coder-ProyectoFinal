@@ -42,4 +42,29 @@ export const newUser= async ( data:UserData ) =>{
         logger.info(info)
         return info
     })
+    
+}
+
+export const newOrder= async ( data:UserData, order:number ) =>{
+    const mailOptions = {
+        from:EMAIL_USER,
+        to: data.email,
+        subject: 'New Order',
+        html:`
+        <div style="width: 80%;text-align: center;">
+            <h1>New Order was created</h1>
+            <p>User: ${data.name}<p/>
+            <p>OrderNumber: ${order}<p/>
+        </div>`
+    }
+
+    await transporter.sendMail(mailOptions,(err,info) =>{
+        if(err){
+            logger.error(err)
+            return err
+        }
+        logger.info(info)
+        return info
+    })
+    
 }

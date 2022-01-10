@@ -7,7 +7,7 @@ import { newUser } from '../utils/email';
 export const createUser = async( name: string, email: string, password: string ):Promise<UserData>=>{
     const hash = await bcrypt.hash( password as string,10 )
     const user = await create(name,email,hash);
-    //await newUser(user);
+    await newUser(user);
     return user;
 };
 
